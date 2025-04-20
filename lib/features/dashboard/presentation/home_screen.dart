@@ -116,11 +116,19 @@ class Header extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                   text: "You are connected to wifi: "),
               Spacer(),
-              CustomText(
-                  fontColor: Colors.black,
-                  fontSize: subheaderFontSize,
-                  fontWeight: FontWeight.w600,
-                  text: "Harsh 5G"),
+              Row(
+                children: [
+                  Icon(Icons.wifi),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  CustomText(
+                      fontColor: Colors.black,
+                      fontSize: subheaderFontSize,
+                      fontWeight: FontWeight.w600,
+                      text: "Harsh 5G"),
+                ],
+              ),
             ],
           ),
         ],
