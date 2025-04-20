@@ -19,6 +19,7 @@ PreferredSizeWidget? customAppBar(
         padding: EdgeInsets.only(bottom: value),
         child: CustomText(
           text: title,
+          fontWeight: FontWeight.bold,
           fontSize: headerFontSize,
           maxLines: 1,
           minFontSize: subheaderFontSize,
