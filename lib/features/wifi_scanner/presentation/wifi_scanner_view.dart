@@ -1,6 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:network_tools/network_tools.dart';
 import 'package:spy_lens/config/constants/app_constants.dart';
 import 'package:spy_lens/features/dashboard/widgets/wifi_info_header.dart';
+import 'package:spy_lens/features/wifi_scanner/domain/bloc/wifi_scanner_bloc.dart';
 import 'package:spy_lens/utils/extension/context_extension.dart';
 import 'package:spy_lens/utils/widgets/custom_app_bar.dart';
 import 'package:spy_lens/utils/widgets/custom_text.dart';
@@ -19,7 +24,6 @@ class _WifiScannerViewState extends State<WifiScannerView>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -29,6 +33,28 @@ class _WifiScannerViewState extends State<WifiScannerView>
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
     _animationController.forward();
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) => scanNetwork());
+  }
+
+  scanNetwork() async {
+    String address =
+        context.read<WifiScannerBloc>().state.connectedWifiIP ?? "";
+    // or You can also get address using network_info_plus package
+    // final String? address = await (NetworkInfo().getWifiIP());
+    final String subnet = address.substring(0, address.lastIndexOf('.'));
+    final stream = HostScannerService.instance.getAllPingableDevices(subnet,
+        firstHostId: 1, lastHostId: 50, progressCallback: (progress) {
+      log('Progress for host discovery : $progress');
+    });
+
+    stream.listen((host) async {
+      // Vendor? hostName = await host.vendor;
+      // //Same host can be emitted multiple times
+      // //Use Set<ActiveHost> instead of List<ActiveHost>
+      // log('Found device: ${hostName!.vendorName}');
+    }, onDone: () {
+      log('Scan completed');
+    }); // Don't forget to cancel the stream when not in use.
   }
 
   @override

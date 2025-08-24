@@ -1,0 +1,2 @@
+C:/flutter_project/spy_lens/android/app/.cxx/RelWithDebInfo/3e1y1w1y/x86_64/CMakeFiles/edit_cache.dir
+C:/flutter_project/spy_lens/android/app/.cxx/RelWithDebInfo/3e1y1w1y/x86_64/CMakeFiles/rebuild_cache.dir

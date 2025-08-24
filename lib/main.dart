@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:network_tools/network_tools.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:spy_lens/config/theme/my_app_theme.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:spy_lens/features/dashboard/domain/dashboard_bloc.dart';
@@ -8,8 +10,13 @@ import 'package:spy_lens/features/dashboard/presentation/dashboard_screen.dart';
 import 'package:spy_lens/features/wifi_scanner/domain/bloc/wifi_scanner_bloc.dart';
 import 'package:toastification/toastification.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (!kIsWeb) {
+    final appDocDirectory = await getApplicationDocumentsDirectory();
+    await configureNetworkTools(appDocDirectory.path, enableDebugging: true);
+  }
+
   runApp(DevicePreview(
       enabled: !kReleaseMode && kIsWeb,
       builder: (context) => const StartApp()));
